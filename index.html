@@ -660,19 +660,33 @@ section { position: relative; }
   .project-alt .project-copy { order: 1; }
   .mockup-quant, .mockup-sim { margin: 0 auto; }
   .nav-links { display: none; }
+  .case-study-grid { grid-template-columns: repeat(3, 1fr); }
+  .timeline-item { grid-template-columns: 1fr; gap: 0; padding-left: var(--space-2xl); }
+  .timeline::before { left: 12px; transform: none; }
+  .timeline-marker { left: 12px; }
+  .timeline-item:nth-child(odd) .timeline-body,
+  .timeline-item:nth-child(even) .timeline-body { grid-column: 1; text-align: left; }
 }
 
 @media (max-width: 640px) {
   .mockup-stats { grid-template-columns: 1fr; }
   .hero-title { font-size: clamp(3rem, 18vw, 6rem); }
   .footer { flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
   .case-study-grid { grid-template-columns: 1fr; }
-  .case-study-head { align-items: flex-start; }
+  .case-study-head { flex-direction: column; align-items: flex-start; gap: var(--space-md); }
+  .case-study { padding-left: var(--space-lg); padding-right: var(--space-lg); }
+  .case-study-title { font-size: 1.35rem; }
   .timeline::before { left: 12px; transform: none; }
   .timeline-item { grid-template-columns: 1fr; gap: 0; padding-left: var(--space-2xl); }
   .timeline-marker { left: 12px; }
   .timeline-item:nth-child(odd) .timeline-body,
   .timeline-item:nth-child(even) .timeline-body { grid-column: 1; text-align: left; }
+  .currently-inner { font-size: 13px; padding: var(--space-sm) var(--space-lg); max-width: 100%; }
+  .contact-actions { flex-wrap: wrap; justify-content: center; }
+  .skill-card { padding: var(--space-lg); }
+  .project-stats { grid-template-columns: 1fr; gap: var(--space-md); }
+  .project-stat { padding: var(--space-lg); }
 }
 
 /* ---------- Icon buttons ---------- */
@@ -1325,17 +1339,16 @@ html.lenis, html.lenis body { height: auto; }
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // No-JS safe: only animate when JS runs AND motion is allowed.
+  // No-JS safe: only animate when JS runs.
   // Without GSAP, every element is visible by default.
-  if (prefersReduced || typeof gsap === 'undefined') {
-    document.documentElement.style.scrollBehavior = prefersReduced ? 'auto' : 'smooth';
+  if (typeof gsap === 'undefined') {
     return;
   }
 
   gsap.registerPlugin(ScrollTrigger);
 
   /* ---------- Lenis smooth scroll ---------- */
-  const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+  const lenis = new Lenis({ lerp: prefersReduced ? 1 : 0.1, smoothWheel: !prefersReduced });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -1407,9 +1420,9 @@ html.lenis, html.lenis body { height: auto; }
   /* ---------- Scroll reveals ---------- */
   gsap.utils.toArray('[data-reveal]').forEach((el) => {
     gsap.from(el, {
-      opacity: 0,
-      y: 24,
-      duration: 0.6,
+      opacity: prefersReduced ? 0.3 : 0,
+      y: prefersReduced ? 4 : 24,
+      duration: prefersReduced ? 0.15 : 0.6,
       ease: 'power2.out',
       scrollTrigger: {
         trigger: el,
