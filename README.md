@@ -2,7 +2,7 @@
 
 Welcome to the repository for my personal developer portfolio website.
 
-🌐 **Live Site:** [notsam7.io](https://notsam7.io/)
+🌐 **Live Site:** [notsam7.github.io](https://notsam7.github.io/)
 
 ---
 
