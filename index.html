@@ -262,6 +262,7 @@
     /* ---------- Hero ---------- */
     .hero {
       position: relative;
+      background: var(--color-bg); /* opaque so the next section hides behind the pinned hero */
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
@@ -303,6 +304,7 @@
     .hero-title {
       width: fit-content;
       margin-inline: auto;
+      white-space: nowrap; /* chars are inline-block spans (per-char reveal) — never let them wrap mid-word */
       font-size: clamp(3rem, 10vw, 11rem);
       font-weight: 900;
       letter-spacing: -0.05em;
@@ -1287,7 +1289,9 @@
       }
 
       .hero-title {
-        font-size: clamp(3rem, 18vw, 6rem);
+        /* 18vw left "SWAYAM" a hair wider than the viewport minus padding, so the
+           last letter wrapped. 15vw fits with margin on all phones. */
+        font-size: clamp(2.75rem, 15vw, 6rem);
       }
 
       .footer {
@@ -2016,68 +2020,9 @@
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
 
-      /* ---------- Hero title → navbar logo shared-element morph (FLIP) ---------- */
-      // The huge "SWAYAM JAIN" wordmark physically shrinks and travels into the stacked
-      // nav logo. Scrubbed 1:1 with scroll so it is fully reversible. Full-motion only.
-      if (!prefersReduced) {
-        const heroSection = document.querySelector('.hero');
-        const heroTitle = document.querySelector('.hero-title');
-        const navBrand = document.querySelector('.nav-brand');
-        if (heroSection && heroTitle && navBrand) {
-          const morph = { bx: 0, by0: 0, tcx: 0, tcy: 0, scale: 1 };
-          const measure = () => {
-            const hr = heroTitle.getBoundingClientRect();
-            const br = navBrand.getBoundingClientRect();
-            morph.bx = hr.left + hr.width / 2;
-            morph.by0 = hr.top + window.scrollY + hr.height / 2;
-            morph.tcx = br.left + br.width / 2;
-            morph.tcy = br.top + br.height / 2;
-            morph.scale = br.height / hr.height;
-          };
-          measure();
-          ScrollTrigger.addEventListener('refreshInit', measure);
-          window.addEventListener('load', measure);
-          if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(measure);
-          }
-
-          // Strong ease-out: the wordmark parks at the logo slot early, then the
-          // opacity handoff happens while it is (almost) stationary — no visible pop.
-          const easeOut = (t) => 1 - Math.pow(1 - t, 3);
-          const clamp01 = (t) => Math.min(1, Math.max(0, t));
-
-          document.documentElement.classList.add('js-morph');
-
-          ScrollTrigger.create({
-            trigger: heroSection,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-            onUpdate(self) {
-              const p = clamp01(self.progress);
-              const e = easeOut(p);
-              const natX = morph.bx;
-              const natY = morph.by0 - self.scroll();
-              const dx = (morph.tcx - natX) * e;
-              const dy = (morph.tcy - natY) * e;
-              const sc = 1 + (morph.scale - 1) * e;
-              const blend = clamp01((e - 0.995) / 0.005); // opacity handoff only once parked
-              gsap.set(heroTitle, {
-                x: dx,
-                y: dy,
-                scale: sc,
-                transformOrigin: 'center center',
-                opacity: 1 - blend,
-                pointerEvents: blend >= 1 ? 'none' : 'auto'
-              });
-              gsap.set(navBrand, { opacity: blend });
-            }
-          });
-        }
-      }
-
-      /* ---------- Hero load animation ---------- */
-      // Split "SWAYAM JAIN" into per-letter spans so the name assembles in on load.
+      /* ---------- Hero load animation: split into per-letter spans ---------- */
+      // Splitting the name into per-char spans early gives both the load reveal and
+      // the scroll morph below their per-letter hooks.
       const heroTitle = document.querySelector('.hero-title');
       if (heroTitle) {
         heroTitle.querySelectorAll('.word').forEach((word) => {
@@ -2092,6 +2037,49 @@
             word.appendChild(span);
           });
         });
+      }
+
+      /* ---------- Hero title → navbar sticky shrink (Apple-style pin) ---------- */
+      // The hero pins at the top of the viewport while the whole wordmark zooms
+      // down; the fixed navbar brand fades in and the supporting copy fades out,
+      // then the next section scrolls up over the empty hero. Scrubbed 1:1 with
+      // scroll so it is fully reversible. Full-motion only.
+      if (!prefersReduced) {
+        const heroSection = document.querySelector('.hero');
+        const navBrand = document.querySelector('.nav-brand');
+        if (heroSection && heroTitle && navBrand) {
+          const clamp01 = (t) => Math.min(1, Math.max(0, t));
+
+          // End scale for the continuous zoom — the title ends small, not gone.
+          const TARGET_SCALE = 0.5;
+
+          // Same elements the heroTl entrance animates — driven here with absolute
+          // gsap.set values from scroll progress so the two never fight (a scrubbed
+          // .to() on these would capture opacity 0 and keep the copy hidden).
+          const copyEls = document.querySelectorAll(
+            '.hero-eyebrow, .hero-sub, .hero-cta .btn, .scroll-cue'
+          );
+
+          document.documentElement.classList.add('js-morph');
+
+          ScrollTrigger.create({
+            trigger: heroSection,
+            start: 'top top',
+            end: '+=120%',
+            pin: true,
+            scrub: true,
+            onUpdate(self) {
+              const p = clamp01(self.progress);
+              copyEls.forEach((el) => gsap.set(el, { opacity: 1 - clamp01(p / 0.3) }));
+              gsap.set(heroTitle, {
+                scale: 1 + (TARGET_SCALE - 1) * p,
+                transformOrigin: 'center center',
+                opacity: p < 0.6 ? 1 : 1 - (p - 0.6) / 0.4
+              });
+              gsap.set(navBrand, { opacity: clamp01(p / 0.25) });
+            }
+          });
+        }
       }
 
       const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
@@ -2151,6 +2139,38 @@
             .from(visual, { opacity: 0.5, scale: 0.9, y: 70, ease: 'none' }, 0);
         });
         return () => { };
+      });
+
+      /* ---------- Project reveals (mobile) ---------- */
+      // Desktop pins + scrubs each project; on phones that pinning fights Lenis
+      // and janks, so animate the copy/visual with a play-once entrance instead.
+      gsap.matchMedia().add('(max-width: 899px)', () => {
+        gsap.utils.toArray('[data-project]').forEach((article) => {
+          const copyEls = article.querySelectorAll(
+            '.project-tag, .project-title, .project-desc, .project-stack, .project-links'
+          );
+          const visual = article.querySelector('.project-visual');
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: article,
+              start: 'top 75%',
+              toggleActions: 'play none none reverse'
+            }
+          });
+          tl.from(copyEls, {
+              opacity: prefersReduced ? 0.3 : 0,
+              y: prefersReduced ? 4 : 24,
+              duration: prefersReduced ? 0.15 : 0.6,
+              stagger: 0.08,
+              ease: 'power2.out'
+            })
+            .from(visual, {
+              opacity: prefersReduced ? 0.3 : 0,
+              y: prefersReduced ? 6 : 30,
+              duration: prefersReduced ? 0.15 : 0.7,
+              ease: 'power2.out'
+            }, '-=0.2');
+        });
       });
 
       /* ---------- Scroll reveals ---------- */
