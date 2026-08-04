@@ -82,6 +82,7 @@
     body {
       max-width: 100%;
       overflow-x: hidden;
+      overflow-x: clip; /* clip, not hidden: hidden turns body into a scroll container on iOS Safari, breaking position:fixed nav + ScrollTrigger */
     }
 
     body {
@@ -210,6 +211,8 @@
     }
 
     .nav-inner {
+      position: relative;
+      min-height: 48px;
       max-width: 1200px;
       margin: 0 auto;
       padding: var(--space-md) var(--space-xl);
@@ -219,18 +222,31 @@
       gap: var(--space-lg);
     }
 
+    /* Nav wordmark — mirrors the hero title typography so the hero can FLIP into it.
+       Absolute + hidden during the morph so it reserves no space on load. */
     .nav-brand {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-sm);
-      font-weight: 700;
-      font-size: 15px;
-      letter-spacing: -0.01em;
+      position: absolute;
+      left: var(--space-xl);
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-sans);
+      font-weight: 900;
+      font-size: 13px;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      white-space: nowrap;
+    }
+
+    html.js-morph .nav-brand {
+      opacity: 0;
     }
 
     .nav-links {
       display: flex;
       gap: var(--space-xl);
+      margin-left: auto;
       font-size: 14px;
       color: var(--color-text-muted);
     }
@@ -285,10 +301,18 @@
     }
 
     .hero-title {
+      width: fit-content;
+      margin-inline: auto;
       font-size: clamp(3rem, 10vw, 11rem);
       font-weight: 900;
       letter-spacing: -0.05em;
       line-height: 0.95;
+    }
+
+    /* During the morph the wordmark floats above the nav bar while it travels. */
+    html.js-morph .hero-title {
+      position: relative;
+      z-index: 150;
     }
 
     .hero-title .line {
@@ -298,6 +322,11 @@
 
     .hero-title .word {
       display: inline-block;
+    }
+
+    .hero-title .char {
+      display: inline-block;
+      will-change: transform, opacity;
     }
 
     .hero-sub {
@@ -1391,7 +1420,7 @@
   <!-- ============ NAV ============ -->
   <header class="nav" id="nav">
     <div class="nav-inner">
-      <a class="nav-brand" href="#top" aria-label="Back to top">Swayam Jain</a>
+      <a class="nav-brand" href="#top" aria-label="Back to top">SWAYAM JAIN</a>
       <nav class="nav-links" aria-label="Primary">
         <a href="#work">Work</a>
         <a href="#skills">Skills</a>
@@ -1890,9 +1919,7 @@
               d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
           </svg>
         </a>
-        <a class="btn btn-ghost"
-          href="https://drive.google.com/file/d/1glACx8CkInDtLsdvsZAyzYcy7kkt4JyZ/view?usp=sharing" target="_blank"
-          rel="noopener">
+        <a class="btn btn-ghost" href="resume.pdf" download>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -1957,23 +1984,31 @@
       gsap.registerPlugin(ScrollTrigger);
 
       /* ---------- Lenis smooth scroll ---------- */
-      const lenis = new Lenis({ lerp: prefersReduced ? 1 : 0.1, smoothWheel: !prefersReduced });
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => lenis.raf(time * 1000));
-      gsap.ticker.lagSmoothing(0);
-      document.documentElement.style.scrollBehavior = 'auto';
+      let lenis = null;
+      try {
+        lenis = new Lenis({ lerp: prefersReduced ? 1 : 0.1, smoothWheel: !prefersReduced });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+        document.documentElement.style.scrollBehavior = 'auto';
+      } catch (err) {
+        // If the Lenis CDN fails, don't let it take the hero animation down with it.
+        console.warn('Lenis smooth scroll unavailable — hero animations still run.', err);
+      }
 
-      // Smooth-scroll same-page anchors through Lenis
-      document.querySelectorAll('a[href^="#"]').forEach((a) => {
-        a.addEventListener('click', (e) => {
-          const id = a.getAttribute('href');
-          const target = id && id.length > 1 ? document.querySelector(id) : null;
-          if (target) {
-            e.preventDefault();
-            lenis.scrollTo(target, { duration: 1.2 });
-          }
+      // Smooth-scroll same-page anchors through Lenis (native jump if Lenis failed to load)
+      if (lenis) {
+        document.querySelectorAll('a[href^="#"]').forEach((a) => {
+          a.addEventListener('click', (e) => {
+            const id = a.getAttribute('href');
+            const target = id && id.length > 1 ? document.querySelector(id) : null;
+            if (target) {
+              e.preventDefault();
+              lenis.scrollTo(target, { duration: 1.2 });
+            }
+          });
         });
-      });
+      }
 
       /* ---------- Nav scroll state ---------- */
       const nav = document.getElementById('nav');
@@ -1981,10 +2016,102 @@
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
 
+      /* ---------- Hero title → navbar logo shared-element morph (FLIP) ---------- */
+      // The huge "SWAYAM JAIN" wordmark physically shrinks and travels into the stacked
+      // nav logo. Scrubbed 1:1 with scroll so it is fully reversible. Full-motion only.
+      if (!prefersReduced) {
+        const heroSection = document.querySelector('.hero');
+        const heroTitle = document.querySelector('.hero-title');
+        const navBrand = document.querySelector('.nav-brand');
+        if (heroSection && heroTitle && navBrand) {
+          const morph = { bx: 0, by0: 0, tcx: 0, tcy: 0, scale: 1 };
+          const measure = () => {
+            const hr = heroTitle.getBoundingClientRect();
+            const br = navBrand.getBoundingClientRect();
+            morph.bx = hr.left + hr.width / 2;
+            morph.by0 = hr.top + window.scrollY + hr.height / 2;
+            morph.tcx = br.left + br.width / 2;
+            morph.tcy = br.top + br.height / 2;
+            morph.scale = br.height / hr.height;
+          };
+          measure();
+          ScrollTrigger.addEventListener('refreshInit', measure);
+          window.addEventListener('load', measure);
+          if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(measure);
+          }
+
+          // Strong ease-out: the wordmark parks at the logo slot early, then the
+          // opacity handoff happens while it is (almost) stationary — no visible pop.
+          const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+          const clamp01 = (t) => Math.min(1, Math.max(0, t));
+
+          document.documentElement.classList.add('js-morph');
+
+          ScrollTrigger.create({
+            trigger: heroSection,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+            onUpdate(self) {
+              const p = clamp01(self.progress);
+              const e = easeOut(p);
+              const natX = morph.bx;
+              const natY = morph.by0 - self.scroll();
+              const dx = (morph.tcx - natX) * e;
+              const dy = (morph.tcy - natY) * e;
+              const sc = 1 + (morph.scale - 1) * e;
+              const blend = clamp01((e - 0.995) / 0.005); // opacity handoff only once parked
+              gsap.set(heroTitle, {
+                x: dx,
+                y: dy,
+                scale: sc,
+                transformOrigin: 'center center',
+                opacity: 1 - blend,
+                pointerEvents: blend >= 1 ? 'none' : 'auto'
+              });
+              gsap.set(navBrand, { opacity: blend });
+            }
+          });
+        }
+      }
+
       /* ---------- Hero load animation ---------- */
-      gsap.timeline({ defaults: { ease: 'power3.out' } })
-        .from('.hero-eyebrow', { opacity: 0, y: 20, duration: 0.6 })
-        .from('.hero-title .word', { opacity: 0, yPercent: 115, duration: 0.95, stagger: 0.12 }, '-=0.3')
+      // Split "SWAYAM JAIN" into per-letter spans so the name assembles in on load.
+      const heroTitle = document.querySelector('.hero-title');
+      if (heroTitle) {
+        heroTitle.querySelectorAll('.word').forEach((word) => {
+          const text = word.textContent;
+          word.setAttribute('aria-label', text);
+          word.textContent = '';
+          [...text].forEach((ch) => {
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = ch === ' ' ? ' ' : ch;
+            span.setAttribute('aria-hidden', 'true');
+            word.appendChild(span);
+          });
+        });
+      }
+
+      const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+      heroTl.from('.hero-eyebrow', { opacity: 0, y: 24, duration: 0.6 });
+
+      if (prefersReduced) {
+        heroTl.from('.hero-title', { opacity: 0, y: 12, duration: 0.5 }, '-=0.2');
+      } else {
+        heroTl.from('.hero-title .char', {
+          opacity: 0,
+          yPercent: 120,
+          filter: 'blur(10px)',
+          duration: 1.0,
+          stagger: 0.045,
+          ease: 'power4.out',
+          clearProps: 'opacity,transform,filter'
+        }, '-=0.3');
+      }
+
+      heroTl
         .from('.hero-sub', { opacity: 0, y: 16, duration: 0.6 }, '-=0.5')
         .from('.hero-cta .btn', { opacity: 0, y: 12, duration: 0.5, stagger: 0.08 }, '-=0.4')
         .from('.scroll-cue', { opacity: 0, duration: 0.5 }, '-=0.2');
@@ -2052,6 +2179,26 @@
 
       /* Re-measure once fonts/layout settle */
       window.addEventListener('load', () => ScrollTrigger.refresh());
+
+      /* Mobile: the URL bar collapses/expands while scrolling, changing the
+         viewport height. Trigger positions go stale → scroll animations fire
+         late or never. Re-measure whenever the visible height actually changes. */
+      window.addEventListener('orientationchange', () => requestAnimationFrame(() => ScrollTrigger.refresh()));
+      if (window.visualViewport) {
+        let lastH = window.visualViewport.height;
+        let queued = false;
+        const onVpChange = () => {
+          const h = window.visualViewport.height;
+          if (Math.abs(h - lastH) < 24 || queued) return;
+          lastH = h;
+          queued = true;
+          requestAnimationFrame(() => {
+            queued = false;
+            ScrollTrigger.refresh();
+          });
+        };
+        window.visualViewport.addEventListener('resize', onVpChange);
+      }
     })();
 
   </script>
