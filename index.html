@@ -783,6 +783,141 @@
       color: var(--color-danger);
     }
 
+    /* ---------- Expense Tracker Mockup (WhatsApp-style) ---------- */
+    .mockup-expense {
+      max-width: 380px;
+      width: 100%;
+      margin: 0 auto;
+      background: #0B141A;
+      border-color: #1F2A37;
+    }
+
+    .project .mockup-expense {
+      margin-left: auto;
+    }
+
+    .mockup-whatsapp-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #1F2A37;
+      background: #111B21;
+    }
+
+    .wa-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      flex-shrink: 0;
+    }
+
+    .wa-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .wa-info b {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      color: #E9EDEF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .wa-info span {
+      font-size: 12px;
+      color: #8696A0;
+    }
+
+    .mockup-whatsapp-chat {
+      padding: 16px;
+      max-height: 280px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .wa-message {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: 85%;
+    }
+
+    .wa-message.user {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .wa-message.bot {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+
+    .wa-bubble {
+      font-size: 13px;
+      line-height: 1.45;
+      padding: 10px 14px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .wa-message.bot .wa-bubble {
+      background: #202C33;
+      color: #E9EDEF;
+      border-bottom-left-radius: 4px;
+    }
+
+    .wa-message.user .wa-bubble {
+      background: #005C4B;
+      color: #E9EDEF;
+      border-bottom-right-radius: 4px;
+    }
+
+    .wa-time {
+      font-size: 10px;
+      color: #8696A0;
+      padding: 0 4px;
+    }
+
+    .wa-message.user .wa-time {
+      text-align: right;
+    }
+
+    .mockup-whatsapp-summary {
+      display: flex;
+      justify-content: space-around;
+      padding: 14px 16px;
+      border-top: 1px solid #1F2A37;
+      background: #111B21;
+    }
+
+    .wa-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .wa-stat b {
+      font-size: 15px;
+      font-weight: 600;
+      color: #25D366;
+    }
+
+    .wa-stat span {
+      font-size: 10px;
+      color: #8696A0;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
     /* ---------- Skills ---------- */
     .marquee {
       overflow: hidden;
@@ -1662,6 +1797,77 @@
           </div>
         </div>
       </article>
+
+      <!-- Project 3 : Expense Tracker via WhatsApp (pinned) -->
+      <article class="project" data-project>
+        <div class="project-visual">
+          <div class="mockup mockup-expense" aria-hidden="true">
+            <div class="mockup-whatsapp-header">
+              <div class="wa-avatar"></div>
+              <div class="wa-info">
+                <b>Expense Bot</b>
+                <span>Online</span>
+              </div>
+            </div>
+            <div class="mockup-whatsapp-chat">
+              <div class="wa-message bot">
+                <span class="wa-bubble">👋 Hi! Just send me your expenses like "lunch 250" or "uber 150 to airport" and I'll log them.</span>
+              </div>
+              <div class="wa-message user">
+                <span class="wa-bubble">coffee 60</span>
+                <span class="wa-time">10:32 AM</span>
+              </div>
+              <div class="wa-message bot">
+                <span class="wa-bubble">✅ Logged: Coffee — ₹60 (Food & Drink)</span>
+              </div>
+              <div class="wa-message user">
+                <span class="wa-bubble">uber 180 to work</span>
+                <span class="wa-time">10:45 AM</span>
+              </div>
+              <div class="wa-message bot">
+                <span class="wa-bubble">✅ Logged: Uber — ₹180 (Transport)</span>
+              </div>
+              <div class="wa-message user">
+                <span class="wa-bubble">dinner 450</span>
+                <span class="wa-time">11:10 AM</span>
+              </div>
+              <div class="wa-message bot">
+                <span class="wa-bubble">✅ Logged: Dinner — ₹450 (Food & Drink)</span>
+              </div>
+            </div>
+            <div class="mockup-whatsapp-summary">
+              <div class="wa-stat"><b>₹690</b><span>Today</span></div>
+              <div class="wa-stat"><b>₹4,230</b><span>This Week</span></div>
+              <div class="wa-stat"><b>₹18,450</b><span>This Month</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-copy">
+          <p class="project-tag">2026 · Personal Project</p>
+          <h3 class="project-title">Expense Tracker via WhatsApp</h3>
+          <p class="project-desc">
+            A personal expense tracker that works entirely through WhatsApp — just message your expenses in natural language like "lunch 250" or "uber 150 to airport" and they're instantly categorized and logged. No app to open, no forms to fill, no manual entry friction.
+          </p>
+          <ul class="project-stack" aria-label="Technologies used">
+            <li>React</li>
+            <li>TypeScript</li>
+            <li>Vite</li>
+            <li>Node.js</li>
+            <li>Vercel Serverless</li>
+            <li>Supabase</li>
+          </ul>
+          <div class="project-links">
+            <a class="btn-icon" href="https://github.com/NotSaM7/expense-tracker-via-whatsapp" target="_blank" rel="noopener"
+              aria-label="Expense Tracker via WhatsApp source on GitHub" title="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.17c-3.2.7-3.87-1.37-3.87-1.37-.53-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
     </section>
 
     <!-- ============ CASE STUDIES ============ -->
@@ -1740,6 +1946,39 @@
             <h4>Outcome</h4>
             <p>A realistic simulator for practising order timing and reading charts before ever touching a real position
               — same market, no downside.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case study 3 : Expense Tracker via WhatsApp -->
+      <div class="case-study" data-reveal>
+        <div class="case-study-head">
+          <div>
+            <p class="project-tag">Expense Tracker via WhatsApp</p>
+            <h3 class="case-study-title">Logging expenses in seconds, not minutes — just text it.</h3>
+          </div>
+          <div class="case-study-links">
+            <a class="btn-icon" href="https://github.com/NotSaM7/expense-tracker-via-whatsapp" target="_blank" rel="noopener"
+              aria-label="Expense Tracker via WhatsApp source on GitHub" title="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.17c-3.2.7-3.87-1.37-3.87-1.37-.53-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="case-study-grid">
+          <div class="case-card" data-reveal>
+            <h4>Problem</h4>
+            <p>Every existing expense tracker forced you to open an app, navigate through multiple screens, pick categories from dropdowns, and manually type amounts — too much friction for small, frequent purchases. Most expenses went unlogged simply because the process took longer than the purchase itself.</p>
+          </div>
+          <div class="case-card" data-reveal>
+            <h4>Approach</h4>
+            <p>Built a WhatsApp-first tracker using a serverless Node.js backend on Vercel with Supabase for persistence. A natural-language parser extracts amount, category, and notes from free-form messages like "lunch 250" or "uber 180 to airport" — no buttons, no forms, just chat. The bot replies instantly with a confirmation and running totals.</p>
+          </div>
+          <div class="case-card" data-reveal>
+            <h4>Outcome</h4>
+            <p>Expenses now take 3 seconds to log instead of 30+. Zero dropped entries because the interface is where you already are — WhatsApp. Weekly summaries delivered automatically, and a dashboard for deeper analysis when needed. Friction removed, habit formed.</p>
           </div>
         </div>
       </div>
@@ -1891,6 +2130,14 @@
             <p>Paper-trading with live NSE data, virtual order execution, and real-time P&amp;L.</p>
           </div>
         </li>
+        <li class="timeline-item" data-reveal>
+          <div class="timeline-marker" aria-hidden="true"></div>
+          <div class="timeline-body">
+            <p class="timeline-date">2026</p>
+            <h3>Expense Tracker via WhatsApp</h3>
+            <p>WhatsApp-first expense logging with natural-language parsing and instant summaries.</p>
+          </div>
+        </li>
       </ol>
     </section>
 
@@ -1923,7 +2170,7 @@
               d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
           </svg>
         </a>
-        <a class="btn btn-ghost" href="resume.pdf" download>
+        <a class="btn btn-ghost" href="https://drive.google.com/file/d/1DWOgrfJzX5QozvldrtmI_3nujwqLKy89/view?usp=sharing" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
