@@ -22,7 +22,7 @@ export const ProjectsApp: React.FC = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 space-y-5 sm:space-y-6">
       <div>
         <h2 className="text-xl font-bold text-white mb-1">Featured Projects</h2>
         <p className="text-xs text-neutral-400">

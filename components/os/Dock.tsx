@@ -108,20 +108,20 @@ export const Dock: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[9000] select-none">
+    <div className="fixed bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 z-[9000] select-none max-w-[calc(100vw-12px)]">
       <motion.div
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
-        className="flex items-end gap-2.5 px-3 py-2.5 rounded-2xl bg-black/40 backdrop-blur-2xl border border-white/15 shadow-2xl"
+        className="flex items-end gap-1.5 sm:gap-2.5 px-2 py-1.5 sm:px-3 sm:py-2.5 rounded-2xl bg-black/50 backdrop-blur-2xl border border-white/15 shadow-2xl overflow-x-auto custom-scrollbar"
       >
-        {dockItems.map((item, index) => {
+        {dockItems.map((item) => {
           const isRunning = windows.some((w) => w.appId === item.id);
           const isDividerBefore = item.id === 'trash';
 
           return (
             <React.Fragment key={item.id}>
               {isDividerBefore && (
-                <div className="w-[1px] h-9 bg-white/20 my-auto mx-0.5" />
+                <div className="w-[1px] h-7 sm:h-9 bg-white/20 my-auto mx-0.5" />
               )}
               <DockIcon
                 item={item}
@@ -147,14 +147,23 @@ interface DockIconProps {
 const DockIcon: React.FC<DockIconProps> = ({ item, mouseX, isRunning, onClick }) => {
   const ref = useRef<HTMLButtonElement>(null);
   const [bouncing, setBouncing] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Real distance-based Gaussian mouse magnification curve
   const distance = useTransform(mouseX, (val: number) => {
+    if (isMobile) return Infinity; // Disable magnification distortion on mobile touch
     const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
     return val - bounds.x - bounds.width / 2;
   });
 
-  const widthSync = useTransform(distance, [-140, 0, 140], [48, 70, 48]);
+  const widthSync = useTransform(distance, [-140, 0, 140], isMobile ? [38, 38, 38] : [48, 70, 48]);
   const width = useSpring(widthSync, { mass: 0.1, stiffness: 180, damping: 14 });
 
   const handleClick = () => {
@@ -164,22 +173,24 @@ const DockIcon: React.FC<DockIconProps> = ({ item, mouseX, isRunning, onClick })
   };
 
   return (
-    <div className="relative group flex flex-col items-center">
-      {/* Tooltip on Hover */}
-      <div className="absolute -top-9 opacity-0 group-hover:opacity-100 transition-all pointer-events-none px-2.5 py-1 rounded-md bg-neutral-900/90 text-white text-[11px] font-medium whitespace-nowrap shadow-lg border border-white/10 backdrop-blur-md">
+    <div className="relative group flex flex-col items-center flex-shrink-0">
+      {/* Tooltip on Hover (Desktop only) */}
+      <div className="absolute -top-9 opacity-0 group-hover:opacity-100 transition-all pointer-events-none px-2.5 py-1 rounded-md bg-neutral-900/90 text-white text-[11px] font-medium whitespace-nowrap shadow-lg border border-white/10 backdrop-blur-md hidden sm:block">
         {item.title}
       </div>
 
       {/* Magnified Dock Icon Button with Spring Bounce */}
       <motion.button
         ref={ref}
-        style={{ width, height: width }}
-        animate={bouncing ? { y: [0, -14, 0] } : { y: 0 }}
+        style={{ width: isMobile ? 38 : width, height: isMobile ? 38 : width }}
+        animate={bouncing ? { y: [0, -12, 0] } : { y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
         onClick={handleClick}
-        className={`relative flex items-center justify-center rounded-xl bg-gradient-to-br ${item.bgGradient} shadow-md overflow-hidden transition-shadow hover:shadow-cyan-500/20 active:scale-95`}
+        className={`relative flex items-center justify-center rounded-xl bg-gradient-to-br ${item.bgGradient} shadow-md overflow-hidden transition-shadow hover:shadow-cyan-500/20 active:scale-95 p-1.5`}
       >
-        {item.icon}
+        <div className="w-full h-full flex items-center justify-center [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-6 sm:[&>svg]:h-6">
+          {item.icon}
+        </div>
       </motion.button>
 
       {/* Running App Indicator Dot */}

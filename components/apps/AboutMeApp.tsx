@@ -8,19 +8,19 @@ export const AboutMeApp: React.FC = () => {
   const { personal, bio, education } = PORTFOLIO_DATA;
 
   return (
-    <div className="p-6 md:p-8 flex flex-col lg:flex-row items-start justify-between gap-8 text-neutral-200">
+    <div className="p-4 sm:p-6 md:p-8 flex flex-col lg:flex-row items-start justify-between gap-6 sm:gap-8 text-neutral-200">
       {/* Left Column: Bio, Story & Badges */}
       <div className="flex-1 flex flex-col justify-center min-w-0">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-wider w-fit mb-3">
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] sm:text-xs font-semibold uppercase tracking-wider w-fit mb-2.5">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           Software Engineer &amp; Full-Stack Builder
         </div>
 
-        <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-2">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-2">
           Hi, I&apos;m {personal.name}
         </h1>
 
-        <div className="text-xs font-medium text-sky-400 mb-5 flex items-center gap-1.5">
+        <div className="text-xs font-medium text-sky-400 mb-4 sm:mb-5 flex items-center gap-1.5 flex-wrap">
           <Code2 className="w-3.5 h-3.5" />
           <span>Full-Stack Development · Quantitative Systems · Neural NLP</span>
         </div>

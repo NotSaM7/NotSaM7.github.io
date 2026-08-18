@@ -8,7 +8,7 @@ export const SkillsApp: React.FC = () => {
   const { skills, education, certificate } = PORTFOLIO_DATA;
 
   return (
-    <div className="p-6 md:p-8 space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 space-y-5 sm:space-y-6">
       <div>
         <h2 className="text-xl font-bold text-white mb-1">Technical Skills &amp; Credentials</h2>
         <p className="text-xs text-neutral-400">

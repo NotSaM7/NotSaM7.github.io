@@ -39,27 +39,55 @@ export const Window: React.FC<WindowProps> = ({ windowItem }) => {
     }
   };
 
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [screenDim, setScreenDim] = React.useState({ w: 1280, h: 800 });
+
+  React.useEffect(() => {
+    const updateDims = () => {
+      setIsMobile(window.innerWidth < 768);
+      setScreenDim({ w: window.innerWidth, h: window.innerHeight });
+    };
+    updateDims();
+    window.addEventListener('resize', updateDims);
+    return () => window.removeEventListener('resize', updateDims);
+  }, []);
+
   if (isMinimized) return null;
+
+  const mobileW = Math.max(300, screenDim.w - 12);
+  const mobileH = Math.max(360, screenDim.h - 88);
 
   return (
     <AnimatePresence>
       <motion.div
-        drag={!isMaximized}
+        drag={!isMobile && !isMaximized}
         dragMomentum={false}
         dragElastic={0}
-        dragConstraints={{ left: 10, top: 32, right: window.innerWidth - w - 10, bottom: window.innerHeight - 80 }}
+        dragConstraints={{ left: 10, top: 32, right: screenDim.w - w - 10, bottom: screenDim.h - 80 }}
         onDragEnd={(_, info) => {
-          updateWindowPosition(id, x + info.offset.x, y + info.offset.y);
+          if (!isMobile) {
+            updateWindowPosition(id, x + info.offset.x, y + info.offset.y);
+          }
         }}
         onMouseDown={() => focusWindow(id)}
-        initial={{ scale: 0.85, opacity: 0, y: 20 }}
+        onTouchStart={() => focusWindow(id)}
+        initial={{ scale: 0.9, opacity: 0, y: 15 }}
         animate={
-          isMaximized
+          isMobile
+            ? {
+                x: 6,
+                y: 32,
+                width: mobileW,
+                height: mobileH,
+                scale: 1,
+                opacity: 1,
+              }
+            : isMaximized
             ? {
                 x: 10,
                 y: 36,
-                width: window.innerWidth - 20,
-                height: window.innerHeight - 100,
+                width: screenDim.w - 20,
+                height: screenDim.h - 100,
                 scale: 1,
                 opacity: 1,
               }
@@ -73,7 +101,7 @@ export const Window: React.FC<WindowProps> = ({ windowItem }) => {
               }
         }
         exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 26 }}
+        transition={{ type: 'spring', stiffness: 320, damping: 28 }}
         style={{
           zIndex,
           position: 'absolute',
@@ -86,12 +114,12 @@ export const Window: React.FC<WindowProps> = ({ windowItem }) => {
       >
         {/* Window Titlebar */}
         <div
-          className={`h-9 px-3.5 flex items-center justify-between border-b border-white/10 bg-[#161a22]/90 select-none cursor-grab active:cursor-grabbing ${
-            isFocused ? 'opacity-100' : 'opacity-70'
-          }`}
+          className={`h-9 px-3 flex items-center justify-between border-b border-white/10 bg-[#161a22]/90 select-none ${
+            !isMobile ? 'cursor-grab active:cursor-grabbing' : ''
+          } ${isFocused ? 'opacity-100' : 'opacity-70'}`}
         >
           {/* Traffic Light Buttons */}
-          <div className="flex items-center gap-2 group">
+          <div className="flex items-center gap-1.5 sm:gap-2 group">
             {/* Close (Red) */}
             <button
               onClick={(e) => {
@@ -99,7 +127,7 @@ export const Window: React.FC<WindowProps> = ({ windowItem }) => {
                 closeWindow(id);
               }}
               title="Close"
-              className="w-3 h-3 rounded-full bg-[#FF5F57] border border-[#E0443E] flex items-center justify-center text-[8px] font-bold text-black/60 hover:brightness-110"
+              className="w-3.5 h-3.5 sm:w-3 sm:h-3 rounded-full bg-[#FF5F57] border border-[#E0443E] flex items-center justify-center text-[8px] font-bold text-black/60 hover:brightness-110 active:scale-95"
             >
               <span className="opacity-0 group-hover:opacity-100 transition-opacity">×</span>
             </button>
@@ -111,7 +139,7 @@ export const Window: React.FC<WindowProps> = ({ windowItem }) => {
                 minimizeWindow(id);
               }}
               title="Minimize"
-              className="w-3 h-3 rounded-full bg-[#FEBC2E] border border-[#D89E24] flex items-center justify-center text-[8px] font-bold text-black/60 hover:brightness-110"
+              className="w-3.5 h-3.5 sm:w-3 sm:h-3 rounded-full bg-[#FEBC2E] border border-[#D89E24] flex items-center justify-center text-[8px] font-bold text-black/60 hover:brightness-110 active:scale-95"
             >
               <span className="opacity-0 group-hover:opacity-100 transition-opacity">–</span>
             </button>
@@ -123,14 +151,14 @@ export const Window: React.FC<WindowProps> = ({ windowItem }) => {
                 toggleMaximizeWindow(id);
               }}
               title="Maximize"
-              className="w-3 h-3 rounded-full bg-[#28C840] border border-[#1AAB29] flex items-center justify-center text-[8px] font-bold text-black/60 hover:brightness-110"
+              className="w-3.5 h-3.5 sm:w-3 sm:h-3 rounded-full bg-[#28C840] border border-[#1AAB29] flex items-center justify-center text-[8px] font-bold text-black/60 hover:brightness-110 active:scale-95"
             >
               <span className="opacity-0 group-hover:opacity-100 transition-opacity">+</span>
             </button>
           </div>
 
           {/* Window Title */}
-          <div className="text-xs font-semibold text-white/90 truncate flex-1 text-center -ml-12 pointer-events-none">
+          <div className="text-xs font-semibold text-white/90 truncate flex-1 text-center -ml-12 pointer-events-none px-2">
             {title}
           </div>
 

@@ -8,7 +8,7 @@ export const ResumeApp: React.FC = () => {
   const { personal } = PORTFOLIO_DATA;
 
   return (
-    <div className="p-6 md:p-8 flex flex-col h-full space-y-4">
+    <div className="p-4 sm:p-6 md:p-8 flex flex-col h-full space-y-4">
       {/* Header with Download Action */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
         <div>

@@ -28,14 +28,14 @@ export const MenuBar: React.FC = () => {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-7 z-[9000] flex items-center justify-between px-3 text-[13px] font-medium text-white/90 bg-black/40 backdrop-blur-2xl border-b border-white/10 select-none">
+    <header className="fixed top-0 left-0 right-0 h-7 z-[9000] flex items-center justify-between px-2 sm:px-3 text-[12px] sm:text-[13px] font-medium text-white/90 bg-black/50 backdrop-blur-2xl border-b border-white/10 select-none">
       {/* Left Menu Section */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 min-w-0">
         {/* Apple Menu */}
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           <button
             onClick={() => setAppleMenuOpen(!appleMenuOpen)}
-            className={`px-2 py-0.5 rounded transition-colors ${
+            className={`px-1.5 py-0.5 rounded transition-colors ${
               appleMenuOpen ? 'bg-white/20' : 'hover:bg-white/10'
             }`}
             title="Apple Menu"
@@ -51,7 +51,7 @@ export const MenuBar: React.FC = () => {
           {/* Apple Dropdown Menu */}
           {appleMenuOpen && (
             <div
-              className="absolute top-7 left-0 w-52 py-1.5 bg-neutral-900/90 backdrop-blur-2xl border border-white/10 rounded-lg shadow-2xl z-[9500] text-xs text-white"
+              className="absolute top-7 left-0 w-52 py-1.5 bg-neutral-900/95 backdrop-blur-2xl border border-white/10 rounded-lg shadow-2xl z-[9500] text-xs text-white"
               onClick={() => setAppleMenuOpen(false)}
             >
               <button
@@ -85,10 +85,12 @@ export const MenuBar: React.FC = () => {
         </div>
 
         {/* Dynamic Active App Name */}
-        <span className="font-bold px-2 py-0.5 text-white">{activeAppTitle}</span>
+        <span className="font-bold px-1.5 py-0.5 text-white truncate max-w-[120px] sm:max-w-[200px]">
+          {activeAppTitle}
+        </span>
 
-        {/* Menus */}
-        <div className="hidden sm:flex items-center">
+        {/* Menus (Desktop only) */}
+        <div className="hidden md:flex items-center">
           <button className="px-2 py-0.5 rounded hover:bg-white/10 text-white/80 hover:text-white transition-colors">File</button>
           <button className="px-2 py-0.5 rounded hover:bg-white/10 text-white/80 hover:text-white transition-colors">Edit</button>
           <button className="px-2 py-0.5 rounded hover:bg-white/10 text-white/80 hover:text-white transition-colors">View</button>
@@ -98,17 +100,17 @@ export const MenuBar: React.FC = () => {
       </div>
 
       {/* Right Status Section */}
-      <div className="flex items-center gap-3 pr-1 text-white/90">
+      <div className="flex items-center gap-2 sm:gap-3 pr-0.5 text-white/90 flex-shrink-0">
         <span title="Wi-Fi: Connected" className="cursor-default">
           <Wifi className="w-3.5 h-3.5" />
         </span>
         <span title="Battery: 100%" className="cursor-default flex items-center gap-1 text-[11px]">
-          <Battery className="w-4 h-4 text-emerald-400" />
+          <Battery className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-emerald-400" />
         </span>
-        <span title="Control Center" className="cursor-default">
+        <span title="Control Center" className="cursor-default hidden sm:inline-block">
           <Sliders className="w-3.5 h-3.5" />
         </span>
-        <span className="font-medium text-xs tracking-tight tabular-nums pl-1">
+        <span className="font-medium text-[11px] sm:text-xs tracking-tight tabular-nums pl-0.5">
           {timeString || 'Mon 10:42 AM'}
         </span>
       </div>

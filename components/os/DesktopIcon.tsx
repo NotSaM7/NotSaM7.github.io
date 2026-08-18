@@ -15,6 +15,16 @@ export const DesktopIcon: React.FC<DesktopIconProps> = ({ app }) => {
   const openWindow = useWindowManager((s) => s.openWindow);
   const isSelected = selectedIconId === app.id;
 
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobile) {
+      openWindow(app.id);
+    } else {
+      selectIcon(app.id);
+    }
+  };
+
   const handleDoubleClick = () => {
     openWindow(app.id);
   };
@@ -28,7 +38,7 @@ export const DesktopIcon: React.FC<DesktopIconProps> = ({ app }) => {
 
   return (
     <motion.div
-      drag
+      drag={typeof window !== 'undefined' && window.innerWidth >= 768}
       dragMomentum={false}
       dragElastic={0.1}
       dragConstraints={{
@@ -40,10 +50,7 @@ export const DesktopIcon: React.FC<DesktopIconProps> = ({ app }) => {
       tabIndex={0}
       role="button"
       aria-label={app.title}
-      onClick={(e) => {
-        e.stopPropagation();
-        selectIcon(app.id);
-      }}
+      onClick={handleClick}
       onDoubleClick={handleDoubleClick}
       onKeyDown={handleKeyDown}
       className={`group flex flex-col items-center justify-center p-2 rounded-xl outline-none cursor-pointer select-none transition-colors w-20 text-center ${
