@@ -19,7 +19,9 @@ export interface SkillCategory {
 
 export interface EducationItem {
   degree: string;
+  institution?: string;
   period: string;
+  gpa?: string;
   coursework: string[];
 }
 
@@ -27,6 +29,12 @@ export interface CertificateItem {
   title: string;
   issuer: string;
   date: string;
+  description: string;
+  credentialUrl?: string;
+}
+
+export interface ExtracurricularItem {
+  title: string;
   description: string;
 }
 
@@ -91,8 +99,9 @@ export const PORTFOLIO_DATA = {
     github: 'https://github.com/NotSaM7',
     linkedin: 'https://www.linkedin.com/in/swayam-jain-8402a0277/',
     instagram: 'https://www.instagram.com/jain.swayam7/',
-    resumePdfUrl: 'https://drive.google.com/file/d/1DWOgrfJzX5QozvldrtmI_3nujwqLKy89/view?usp=sharing',
-    resumeDownloadUrl: 'https://drive.google.com/file/d/1DWOgrfJzX5QozvldrtmI_3nujwqLKy89/view?usp=sharing',
+    portfolioUrl: 'https://notsam7.github.io/',
+    resumePdfUrl: '/resume.pdf',
+    resumeDownloadUrl: '/resume.pdf',
   },
   bio: {
     lead: "Software engineer and quantitative systems builder who got into algorithmic trading out of sheer curiosity — and now can't stop backtesting strategies at 3 AM.",
@@ -111,97 +120,124 @@ export const PORTFOLIO_DATA = {
     ]
   },
   education: {
-    degree: 'B.Tech · Computer Science & Engineering',
+    degree: 'Bachelor of Technology (B.Tech) in Computer Science and Engineering',
+    institution: 'SRM Institute of Science and Technology - Ghaziabad',
     period: '2023 – 2027',
+    gpa: 'CGPA: 8.17 / 10.0',
     coursework: [
-      'DSA',
-      'DBMS',
+      'Data Structures & Algorithms',
+      'Database Management Systems (DBMS)',
       'Operating Systems',
+      'Object-Oriented Design & Programming (OOP)',
       'Computer Networks',
-      'AI',
+      'Artificial Intelligence',
       'Data Science',
-      'Data Mining',
-      'IoT'
+      'Data Mining & Analytics'
     ],
   } as EducationItem,
+  certificates: [
+    {
+      title: 'Data Analytics Job Simulation (Tata iQ)',
+      issuer: 'Tata Group',
+      date: 'August 2026',
+      description: 'Conducted exploratory data analysis (EDA) and credit risk indicator modeling; architected an agentic AI delinquency recovery and collections strategy.'
+    },
+    {
+      title: 'Natural Language Processing (IIT)',
+      issuer: 'NPTEL',
+      date: 'April 2026',
+      description: 'Completed rigorous curriculum covering tokenization, statistical language models, sequence-to-sequence networks, and transformer-based NLP pipelines.'
+    }
+  ] as CertificateItem[],
   certificate: {
-    title: 'Natural Language Processing',
-    issuer: 'NPTEL · IIT Madras',
+    title: 'Natural Language Processing (IIT)',
+    issuer: 'NPTEL',
     date: 'April 2026',
-    description: 'Text processing, language models, and sequence-to-sequence architectures — hands-on with NLP pipelines, tokenization, and transformer-based models.'
+    description: 'Completed rigorous curriculum covering tokenization, statistical language models, sequence-to-sequence networks, and transformer-based NLP pipelines.'
   } as CertificateItem,
   skills: [
     {
       title: 'Languages',
       icon: 'Code2',
-      skills: ['Python', 'SQL', 'Java', 'TypeScript', 'JavaScript (ES6+)', 'C++']
+      skills: ['Python', 'SQL', 'Java', 'TypeScript', 'JavaScript']
     },
     {
       title: 'Frameworks & Libraries',
       icon: 'Layers',
-      skills: ['React', 'Next.js', 'FastAPI', 'Pandas', 'NumPy', 'Scikit-Learn', 'Matplotlib', 'Tailwind CSS', 'MUI', 'Vite']
+      skills: ['FastAPI', 'React', 'Node.js', 'LangGraph', 'SQLAlchemy', 'Pandas', 'NumPy', 'Scikit-Learn', 'Matplotlib', 'Vite', 'Material UI']
     },
     {
-      title: 'Tools & Databases',
+      title: 'Databases',
       icon: 'Database',
-      skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'SQLite', 'Supabase', 'Power BI', 'Tableau', 'Git', 'Docker']
+      skills: ['PostgreSQL', 'Supabase', 'MySQL', 'SQLite', 'MongoDB']
     },
     {
-      title: 'Platforms & Workflows',
-      icon: 'Cpu',
-      skills: ['VS Code', 'Jupyter', 'PyCharm', 'Prompt Engineering', 'REST APIs', 'WebSockets', 'Linux']
+      title: 'APIs & Cloud',
+      icon: 'Cloud',
+      skills: ['REST APIs', 'Meta Cloud API', 'Vercel']
+    },
+    {
+      title: 'Developer Tools',
+      icon: 'Wrench',
+      skills: ['Git', 'GitHub', 'Power BI', 'Tableau']
     }
   ] as SkillCategory[],
+  extracurriculars: [
+    {
+      title: 'Competitive Programming & Technical Exploration',
+      description: 'Independently research quantitative trading strategies and financial markets beyond the academic curriculum.'
+    },
+    {
+      title: 'Strategic Gaming & Esports',
+      description: 'Compete in multiplayer and strategy-based games requiring analytical thinking and fast decision-making under pressure.'
+    }
+  ] as ExtracurricularItem[],
   projects: [
     {
       id: 'quant-trading',
       title: 'Quant Trading App',
-      year: '2026',
-      category: 'Quantitative Finance & Dashboard',
-      description: 'A premium quantitative trading dashboard for NSE markets — a parallel SMA / RSI / ATR strategy engine, automated stop-loss, one-click profit booking, 6–12 month backtesting, and JWT-secured portfolios, wrapped in a Spotify-inspired dark UI.',
-      techStack: ['React', 'TypeScript', 'FastAPI', 'Pandas', 'NumPy', 'Supabase', 'MUI', 'Vite'],
+      year: 'June 2026',
+      category: 'Quantitative Finance & Agentic Systems',
+      description: 'A quantitative trading platform with autonomous LangGraph research agents, parallel NSE equity screening across 134 stocks, multi-tenant FastAPI/PostgreSQL architecture with row-level data isolation, and automated benchmark backtesting.',
+      techStack: ['React', 'TypeScript', 'Python', 'FastAPI', 'SQLAlchemy', 'PostgreSQL (Supabase)', 'LangGraph', 'Pandas', 'NumPy'],
       features: [
-        'Parallel strategy engine (SMA, RSI, ATR)',
-        'Real-time NSE market data feeds',
-        '6–12 month strategy backtesting',
-        'Automated stop-loss & one-click profit booking',
-        'JWT authentication & portfolio tracking'
+        'Architected an autonomous LLM research agent using LangGraph (ReAct framework) orchestrating 5 specialized financial tools to generate cited buy/hold/sell trade theses, cutting query latency from ~2 minutes to ~30 seconds via pipeline optimization.',
+        'Engineered a parallel stock-screening engine processing 134 NSE-listed equities via a multi-threaded worker pool, computing real-time SMA, RSI, and ATR technical indicators to rank momentum candidates in under 2 seconds per scan pass.',
+        'Implemented a multi-tenant backend with FastAPI, SQLAlchemy, and PostgreSQL, incorporating JWT authentication, bcrypt password hashing, and row-level data isolation for user portfolios, execution logs, and live position metrics.',
+        'Developed an automated backtesting engine computing Sharpe ratio, maximum drawdown, and win rate against historical benchmarks; built a responsive, dark-mode analytics dashboard with automated risk controls and deployed to Vercel and Supabase.'
       ],
       liveUrl: 'https://quant-trading-zeta.vercel.app/',
       githubUrl: 'https://github.com/NotSaM7/quant_trading',
       icon: 'TrendingUp'
     },
     {
+      id: 'whatsapp-expense',
+      title: 'Expense Tracker via WhatsApp',
+      year: 'August 2026',
+      category: 'Conversational NLP & Financial Systems',
+      description: 'A zero-friction personal finance system integrating Meta Cloud API (WhatsApp Webhooks) and Gemini AI to log unstructured natural-language expenses into a multi-bucket balance tracking architecture.',
+      techStack: ['TypeScript', 'React', 'Node.js', 'Meta Cloud API', 'Gemini AI', 'PostgreSQL (Supabase)', 'Vercel'],
+      features: [
+        'Built a conversational financial tracking agent integrating Meta Cloud API (WhatsApp Webhooks) and Gemini AI to parse unstructured natural-language inputs (e.g., "rs 247 debit food") and execute zero-friction transaction logging.',
+        'Designed a multi-bucket balance tracking architecture (bank accounts, liquid cash, custom funds) featuring auto-resetting monthly budget thresholds and an automated start-of-month salary-confirmation reconciliation workflow.',
+        'Developed a full-stack financial dashboard in React and TypeScript with a Node.js/Supabase backend, supporting real-time transaction auditing, bucket lifecycle operations (add/edit/delete), and historical debit/credit visualizations.'
+      ],
+      githubUrl: 'https://github.com/NotSaM7/expense-tracker-via-whatsapp',
+      icon: 'MessageSquare'
+    },
+    {
       id: 'stock-sim',
       title: 'Stock Trading Simulation Game',
       year: '2026',
       category: 'Fintech Simulation',
-      description: 'A realistic paper-trading game for NSE equity markets — live market data via FastAPI and yfinance, virtual order execution with zero financial risk, portfolio tracking with real-time P&L, and interactive line and candlestick charts.',
-      techStack: ['React', 'TypeScript', 'Vite', 'MUI', 'FastAPI', 'yfinance'],
+      description: 'An Indian equity (NSE) paper-trading simulation platform with live yfinance market data feeds, zero-risk virtual order execution, and interactive candlestick portfolio analytics.',
+      techStack: ['Python', 'FastAPI', 'React', 'TypeScript', 'Vite', 'Material UI', 'yfinance'],
       features: [
-        'Live NSE market quotes via yfinance',
-        'Virtual order execution engine (Limit / Market)',
-        'Real-time P&L & portfolio balance updates',
-        'Interactive candlestick & area charts'
+        'Built an Indian equity (NSE) paper-trading platform integrating real-time market data streams via yfinance, allowing users to execute simulated limit/market orders with virtual currency and zero capital exposure.',
+        'Engineered a client-side portfolio management engine rendering interactive line and candlestick charts to compute dynamic asset allocation, total position valuation, and real-time unrealized/realized P&L calculations.'
       ],
       githubUrl: 'https://github.com/NotSaM7/stock_sim',
       icon: 'Gamepad2'
-    },
-    {
-      id: 'whatsapp-expense',
-      title: 'Expense Tracker via WhatsApp',
-      year: '2026',
-      category: 'Conversational NLP & Tool',
-      description: 'A personal expense tracker that works entirely through WhatsApp — message your expenses in natural language like "lunch 250" or "uber 150 to airport" and they are instantly categorized and logged without opening an app.',
-      techStack: ['React', 'TypeScript', 'Vite', 'Node.js', 'Vercel Serverless', 'Supabase', 'Twilio API'],
-      features: [
-        'Natural-language transaction parsing',
-        'Instant WhatsApp webhook processing',
-        'Automated spending categorization',
-        'Weekly & monthly analytics dashboard'
-      ],
-      githubUrl: 'https://github.com/NotSaM7/expense-tracker-via-whatsapp',
-      icon: 'MessageSquare'
     }
   ] as ProjectItem[]
 };
