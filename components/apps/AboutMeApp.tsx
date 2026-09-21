@@ -32,15 +32,15 @@ export const AboutMeApp: React.FC = () => {
           </p>
 
           <p className="text-neutral-300">
-            I call my approach <strong className="text-white font-semibold">&ldquo;vibe coding&rdquo;</strong> — using AI-assisted development to move faster while still understanding what&apos;s underneath: the architecture, APIs, implementation details, edge cases, constraints, and trade-offs. AI helps me write faster, but understanding what I&apos;m building is still the important part.
+            I like to call it <strong className="text-white font-semibold">vibe coding</strong>; building applications using AI-assisted development while understanding the internals, the architectural decisions, the APIs, implementations, edge cases, constraints, and limitations. The AI helps with faster prototyping, but I get to understand what I build.
           </p>
 
           <p className="text-neutral-300">
-            I&apos;m especially interested in the overlap between <strong className="text-white font-semibold">software, AI, and quantitative systems</strong>. I&apos;ve built an autonomous AI research agent for quantitative trading, a WhatsApp-based expense tracker, and an NSE paper-trading platform. A lot of my learning comes from taking something unfamiliar, going back to the fundamentals, and figuring it out by building.
+            My interests lie in the intersection of <strong className="text-white font-semibold">software, AI, and quantitative systems</strong>. I have built an autonomous AI research agent for quantitative trading, a WhatsApp-based personal expense tracker, and a paper-trading platform for NSE. Most of my learning comes from first principles and implementing my own understanding of a concept.
           </p>
 
           <p className="text-neutral-300">
-            I enjoy debugging almost as much as building. I&apos;m usually looking for ways to remove unnecessary complexity, optimize a workflow, and turn repetitive real-world problems into simple products.
+            Debugging is as interesting as building for me; I am always looking to simplify a system, optimize a process, and automate a mundane task that can be turned into a product.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export const AboutMeApp: React.FC = () => {
             <span>Philosophy</span>
           </div>
           <p className="text-xs sm:text-sm font-bold text-white tracking-tight">
-            {bio.creed || 'I build to learn, learn to build, and prefer shipping over overthinking.'}
+            {bio.creed || 'I build to learn and learn to build. I believe in shipping over thinking.'}
           </p>
         </div>
 

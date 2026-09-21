@@ -19,15 +19,15 @@ Single source of truth for all portfolio data, synced directly with the official
 ## About Me
 
 ### Full-Stack Developer & AI Builder
-I build practical full-stack and AI products end to end — usually starting with a real problem, figuring out the simplest way to solve it, and shipping something that actually works.
+I build products of value to the end-users. I typically start with a practical problem in mind and iterate towards the simplest possible solution that can be shipped as a product.
 
-I call my approach **“vibe coding”** — using AI-assisted development to move faster while still understanding what’s underneath: the architecture, APIs, implementation details, edge cases, constraints, and trade-offs. AI helps me write faster, but understanding what I’m building is still the important part.
+I like to call it vibe coding; building applications using AI-assisted development while understanding the internals, the architectural decisions, the APIs, implementations, edge cases, constraints, and limitations. The AI helps with faster prototyping, but I get to understand what I build.
 
-I’m especially interested in the overlap between **software, AI, and quantitative systems**. I’ve built an autonomous AI research agent for quantitative trading, a WhatsApp-based expense tracker, and an NSE paper-trading platform. A lot of my learning comes from taking something unfamiliar, going back to the fundamentals, and figuring it out by building.
+My interests lie in the intersection of software, AI, and quantitative systems. I have built an autonomous AI research agent for quantitative trading, a WhatsApp-based personal expense tracker, and a paper-trading platform for NSE. Most of my learning comes from first principles and implementing my own understanding of a concept.
 
-I enjoy debugging almost as much as building. I’m usually looking for ways to remove unnecessary complexity, optimize a workflow, and turn repetitive real-world problems into simple products.
+Debugging is as interesting as building for me; I am always looking to simplify a system, optimize a process, and automate a mundane task that can be turned into a product.
 
-> **“I build to learn, learn to build, and prefer shipping over overthinking.”**
+> **“I build to learn and learn to build. I believe in shipping over thinking.”**
 
 ---
 
