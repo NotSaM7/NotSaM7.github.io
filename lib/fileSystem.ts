@@ -93,8 +93,8 @@ export const APPS_REGISTRY: Record<string, AppMeta> = {
 export const PORTFOLIO_DATA = {
   personal: {
     name: 'Swayam Jain',
-    title: 'Software Engineer & Full-Stack Developer',
-    headline: 'Full-Stack Development · Quantitative Systems · Data Science',
+    title: 'Full-Stack Developer & AI Builder',
+    headline: 'Full-Stack Development · AI Products · Quantitative Systems',
     email: 'swayamjain58@gmail.com',
     github: 'https://github.com/NotSaM7',
     linkedin: 'https://www.linkedin.com/in/swayam-jain-8402a0277/',
@@ -104,19 +104,20 @@ export const PORTFOLIO_DATA = {
     resumeDownloadUrl: '/resume.pdf',
   },
   bio: {
-    lead: "Software engineer and quantitative systems builder who got into algorithmic trading out of sheer curiosity — and now can't stop backtesting strategies at 3 AM.",
+    badge: 'Full-Stack Developer & AI Builder',
+    lead: 'I build practical full-stack and AI products end to end — usually starting with a real problem, figuring out the simplest way to solve it, and shipping something that actually works.',
     paragraphs: [
-      "I build full-stack products end to end: from conversational NLP pipelines that log your expenses via WhatsApp, to high-frequency paper-trading engines with real-time candlestick charts and automated risk management.",
-      "Yes, I write code — but let's be honest, modern AI writes a hefty chunk of the boilerplate. The real superpower? Knowing the exact architecture, prompt constraints, edge cases, and mathematical models to turn raw output into production-grade systems that actually ship.",
-      "When I'm not tweaking ATR stop-loss multipliers or fine-tuning spring physics in Framer Motion, you'll probably find me in a Valorant lobby reading site angles and calling rotations — identical analytical instincts, just with much less tolerance for bad decision-making.",
-      "Firm believer that software should be ridiculously fast, aesthetically stunning, and actually solve real problems instead of being another cookie-cutter template."
+      'I call my approach “vibe coding” — using AI-assisted development to move faster while still understanding what’s underneath: the architecture, APIs, implementation details, edge cases, constraints, and trade-offs. AI helps me write faster, but understanding what I’m building is still the important part.',
+      'I’m especially interested in the overlap between software, AI, and quantitative systems. I’ve built an autonomous AI research agent for quantitative trading, a WhatsApp-based expense tracker, and an NSE paper-trading platform. A lot of my learning comes from taking something unfamiliar, going back to the fundamentals, and figuring it out by building.',
+      'I enjoy debugging almost as much as building. I’m usually looking for ways to remove unnecessary complexity, optimize a workflow, and turn repetitive real-world problems into simple products.'
     ],
-    currentFocus: 'Engineering high-throughput quantitative backtesting pipelines, alpha signal discovery, and buttery-smooth desktop-grade web applications.',
+    creed: 'I build to learn, learn to build, and prefer shipping over overthinking.',
+    currentFocus: 'Engineering autonomous AI agents, high-throughput quantitative pipelines, and clean full-stack web applications.',
     funFacts: [
-      { label: 'Obsession', value: 'Backtesting Alpha Signals & Market Data' },
-      { label: 'Tech Superpower', value: 'Orchestrating Complex Full-Stack Systems with AI' },
-      { label: 'Off Duty', value: 'Clicking Heads in Valorant Ranked' },
-      { label: 'Design Rule', value: 'Never ship a boring MVP' },
+      { label: 'Approach', value: 'Vibe Coding + Deep Architecture' },
+      { label: 'Domain', value: 'Software, AI & Quantitative Systems' },
+      { label: 'Focus', value: 'Removing Complexity & Optimizing Workflows' },
+      { label: 'Motto', value: 'Shipping Over Overthinking' },
     ]
   },
   education: {

@@ -6,13 +6,28 @@ Single source of truth for all portfolio data, synced directly with the official
 
 ## Personal Info
 - **Name**: Swayam Jain
-- **Title**: Software Engineer & Full-Stack Developer
-- **Headline**: Full-Stack Development · Quantitative Systems · Data Science
+- **Title**: Full-Stack Developer & AI Builder
+- **Headline**: Full-Stack Development · AI Products · Quantitative Systems
 - **Email**: swayamjain58@gmail.com
 - **GitHub**: https://github.com/NotSaM7
 - **LinkedIn**: https://www.linkedin.com/in/swayam-jain-8402a0277/
 - **Portfolio**: https://notsam7.github.io/
 - **Resume PDF**: /resume.pdf
+
+---
+
+## About Me
+
+### Full-Stack Developer & AI Builder
+I build practical full-stack and AI products end to end — usually starting with a real problem, figuring out the simplest way to solve it, and shipping something that actually works.
+
+I call my approach **“vibe coding”** — using AI-assisted development to move faster while still understanding what’s underneath: the architecture, APIs, implementation details, edge cases, constraints, and trade-offs. AI helps me write faster, but understanding what I’m building is still the important part.
+
+I’m especially interested in the overlap between **software, AI, and quantitative systems**. I’ve built an autonomous AI research agent for quantitative trading, a WhatsApp-based expense tracker, and an NSE paper-trading platform. A lot of my learning comes from taking something unfamiliar, going back to the fundamentals, and figuring it out by building.
+
+I enjoy debugging almost as much as building. I’m usually looking for ways to remove unnecessary complexity, optimize a workflow, and turn repetitive real-world problems into simple products.
+
+> **“I build to learn, learn to build, and prefer shipping over overthinking.”**
 
 ---
 
