@@ -36,12 +36,12 @@ Debugging is as interesting as building for me; I am always looking to simplify 
 ### 1. Quant Trading App (June 2026)
 - **Live Demo**: https://quant-trading-zeta.vercel.app/
 - **GitHub**: https://github.com/NotSaM7/quant_trading
-- **Tech Stack**: React, TypeScript, Python, FastAPI, SQLAlchemy, PostgreSQL (Supabase), LangGraph, Pandas, NumPy
+- **Tech Stack**: React, TypeScript, Python, FastAPI, PostgreSQL (pgvector / Supabase), LangGraph, Gemini API, SQLAlchemy, Pandas, NumPy
 - **Key Points**:
-  - Architected an autonomous LLM research agent using LangGraph (ReAct framework) orchestrating 5 specialized financial tools to generate cited buy/hold/sell trade theses, cutting query latency from ~2 minutes to ~30 seconds via pipeline optimization.
+  - Architected an episodic strategy memory RAG pipeline utilizing Supabase pgvector (HNSW cosine search) and Gemini 768-dim embeddings; classified market conditions into 6 regimes to retrieve analogous trade episodes and flag false breakout traps (<40% win rate).
+  - Built an autonomous LLM research agent via LangGraph (ReAct framework) orchestrating 6 specialized financial tools (pricing, technicals, peer momentum, news sentiment, backtesting, vector memory) to produce cited BUY/HOLD/SELL trade theses in ~30s.
   - Engineered a parallel stock-screening engine processing 134 NSE-listed equities via a multi-threaded worker pool, computing real-time SMA, RSI, and ATR technical indicators to rank momentum candidates in under 2 seconds per scan pass.
-  - Implemented a multi-tenant backend with FastAPI, SQLAlchemy, and PostgreSQL, incorporating JWT authentication, bcrypt password hashing, and row-level data isolation for user portfolios, execution logs, and live position metrics.
-  - Developed an automated backtesting engine computing Sharpe ratio, maximum drawdown, and win rate against historical benchmarks; built a responsive, dark-mode analytics dashboard with automated risk controls and deployed to Vercel and Supabase.
+  - Developed a multi-tenant FastAPI backend with Supabase PostgreSQL, JWT auth, and row-level data isolation; integrated an automated 3% stop-loss liquidation engine and a historical backtesting pipeline (Sharpe ratio, max drawdown, win rate).
 
 ### 2. Expense Tracker via WhatsApp (August 2026)
 - **GitHub**: https://github.com/NotSaM7/expense-tracker-via-whatsapp
@@ -51,7 +51,7 @@ Debugging is as interesting as building for me; I am always looking to simplify 
   - Designed a multi-bucket balance tracking architecture (bank accounts, liquid cash, custom funds) featuring auto-resetting monthly budget thresholds and an automated start-of-month salary-confirmation reconciliation workflow.
   - Developed a full-stack financial dashboard in React and TypeScript with a Node.js/Supabase backend, supporting real-time transaction auditing, bucket lifecycle operations (add/edit/delete), and historical debit/credit visualizations.
 
-### 3. Stock Trading Simulation Game (2026)
+### 3. Stock Trading Simulation Game (April 2026)
 - **GitHub**: https://github.com/NotSaM7/stock_sim
 - **Tech Stack**: Python, FastAPI, React, TypeScript, Vite, Material UI, yfinance
 - **Key Points**:
@@ -63,9 +63,9 @@ Debugging is as interesting as building for me; I am always looking to simplify 
 ## Technical Skills
 
 - **Languages**: Python, SQL, Java, TypeScript, JavaScript
-- **Frameworks & Libraries**: FastAPI, React, Node.js, LangGraph, SQLAlchemy, Pandas, NumPy, Scikit-Learn, Matplotlib, Vite, Material UI
-- **Databases**: PostgreSQL, Supabase, MySQL, SQLite, MongoDB
-- **APIs & Cloud**: REST APIs, Meta Cloud API, Vercel
+- **Frameworks & Libraries**: FastAPI, React, Node.js, LangGraph, LangChain (RAG), SQLAlchemy, Pandas, NumPy, Scikit-Learn, Matplotlib, Vite, Material UI
+- **Databases**: PostgreSQL (pgvector), Supabase, MySQL, SQLite, MongoDB
+- **APIs & Cloud**: REST APIs, Google Gemini API, Meta Cloud API, Vercel
 - **Developer Tools**: Git, GitHub, Power BI, Tableau
 
 ---
